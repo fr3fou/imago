@@ -1,4 +1,4 @@
-package nni
+package imago
 
 import (
 	"image"
