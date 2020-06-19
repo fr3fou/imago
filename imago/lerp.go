@@ -33,17 +33,17 @@ func Scale(img image.Image, amount int) image.Image {
 			botLeftColor := img.At(int(botLeftX), int(botLeftY))
 			botRightColor := img.At(int(botRightX), int(botRightY))
 
-			topColor := lerp(topLeftColor, topRightColor,
+			topColor := Lerp(topLeftColor, topRightColor,
 				int(math.Abs(topLeftX-topRightX)),
 				int(math.Abs(topLeftX-targetX)),
 			)
 
-			botColor := lerp(botLeftColor, botRightColor,
+			botColor := Lerp(botLeftColor, botRightColor,
 				int(math.Abs(botLeftX-botRightX)),
 				int(math.Abs(botLeftX-targetX)),
 			)
 
-			finalColor := lerp(topColor, botColor,
+			finalColor := Lerp(topColor, botColor,
 				int(math.Abs(topLeftY-botLeftY)),
 				int(math.Abs(topLeftY-targetY)),
 			)
@@ -55,7 +55,7 @@ func Scale(img image.Image, amount int) image.Image {
 	return scaledImage
 }
 
-func lerp(firstColor color.Color, secondColor color.Color, totalDist int, targetDist int) color.Color {
+func Lerp(firstColor color.Color, secondColor color.Color, totalDist int, targetDist int) color.Color {
 	fR, fG, fB, fA := firstColor.RGBA()
 	sR, sG, sB, sA := secondColor.RGBA()
 

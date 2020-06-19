@@ -14,5 +14,5 @@
 - http://tech-algorithm.com/articles/linear-interpolation/
 - https://www.wikiwand.com/en/Linear_interpolation
 - https://www.cambridgeincolour.com/tutorials/image-interpolation.htm
-- ![](https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Linear_interpolation_visualisation.svg/640px-Linear_interpolation_visualisation.svg.png)
 
+![](https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Linear_interpolation_visualisation.svg/640px-Linear_interpolation_visualisation.svg.png)
