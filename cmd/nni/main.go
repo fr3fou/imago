@@ -46,7 +46,7 @@ func main() {
 
 	scaled := imago.NNI(loadedImage, amount)
 
-	scaledFile, err := os.Create(fmt.Sprintf("output/%s_%vx.png", filename, amount))
+	scaledFile, err := os.Create(fmt.Sprintf("%s_%vx.png", filename, amount))
 	if err != nil {
 		panic(err)
 	}
