@@ -60,9 +60,9 @@ func lerp(firstColor color.Color, secondColor color.Color, totalDist int, target
 	sR, sG, sB, sA := secondColor.RGBA()
 
 	return color.RGBA{
-		R: uint8((fR) + uint32(targetDist)*(sR-fR)),
-		G: uint8((fG) + uint32(targetDist)*(sG-fG)),
-		B: uint8((fB) + uint32(targetDist)*(sB-fB)),
-		A: uint8((fA) + uint32(targetDist)*(sA-fA)),
+		R: uint8(((fR) + uint32(targetDist)*(sR-fR)) / 256),
+		G: uint8(((fG) + uint32(targetDist)*(sG-fG)) / 256),
+		B: uint8(((fB) + uint32(targetDist)*(sB-fB)) / 256),
+		A: uint8(((fA) + uint32(targetDist)*(sA-fA)) / 256),
 	}
 }
