@@ -2,6 +2,16 @@
 
 🗺 Several image scaling algorithms implemented in Go.
 
+## Usage
+
+After `go get -u github.com/fr3fou/imago/...`
+
+```sh
+$ lerp image.png 2
+# or
+$ nni image.png 2
+```
+
 ~~hotel? trivago.~~
 
 ## Resources

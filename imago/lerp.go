@@ -6,9 +6,9 @@ import (
 	"math"
 )
 
-// Scale takes in an image and scales it "amount" of times
+// Lerp takes in an image and scales it "amount" of times
 // using a linear interpolation algorithm
-func Scale(img image.Image, amount int) image.Image {
+func Lerp(img image.Image, amount int) image.Image {
 	bounds := img.Bounds()
 
 	// Create a new image that is "amount" times bigger than the original one
@@ -33,17 +33,17 @@ func Scale(img image.Image, amount int) image.Image {
 			botLeftColor := img.At(int(botLeftX), int(botLeftY))
 			botRightColor := img.At(int(botRightX), int(botRightY))
 
-			topColor := Lerp(topLeftColor, topRightColor,
+			topColor := lerp(topLeftColor, topRightColor,
 				int(math.Abs(topLeftX-topRightX)),
 				int(math.Abs(topLeftX-targetX)),
 			)
 
-			botColor := Lerp(botLeftColor, botRightColor,
+			botColor := lerp(botLeftColor, botRightColor,
 				int(math.Abs(botLeftX-botRightX)),
 				int(math.Abs(botLeftX-targetX)),
 			)
 
-			finalColor := Lerp(topColor, botColor,
+			finalColor := lerp(topColor, botColor,
 				int(math.Abs(topLeftY-botLeftY)),
 				int(math.Abs(topLeftY-targetY)),
 			)
@@ -55,7 +55,7 @@ func Scale(img image.Image, amount int) image.Image {
 	return scaledImage
 }
 
-func Lerp(firstColor color.Color, secondColor color.Color, totalDist int, targetDist int) color.Color {
+func lerp(firstColor color.Color, secondColor color.Color, totalDist int, targetDist int) color.Color {
 	fR, fG, fB, fA := firstColor.RGBA()
 	sR, sG, sB, sA := secondColor.RGBA()
 
