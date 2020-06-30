@@ -20,7 +20,7 @@ $ nni image.png 2
 
 ~~hotel? trivago.~~
 
-## Resources
+## References
 
 - <http://courses.cs.vt.edu/~masc1044/L17-Rotation/ScalingNN.html>
 - <https://www.wikiwand.com/en/Nearest-neighbor_interpolation>
