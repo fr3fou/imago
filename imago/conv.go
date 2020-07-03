@@ -12,12 +12,13 @@ import (
 // ErrKernelSquare is an error for when the kernel shape isn't a square.
 var ErrKernelSquare = errors.New("imago: kernel shape must be square")
 
+// Conv applies a convolution filter to an image
 func Conv(img image.Image, width, height int, kernel matrigo.Matrix, stride int) image.Image {
 	output := image.NewNRGBA(image.Rect(0, 0, width, height))
 	bounds := img.Bounds()
 
-	for y := bounds.Min.Y; y < bounds.Max.Y; y += stride {
-		for x := bounds.Min.X; x < bounds.Max.X; x += stride {
+	for x := bounds.Min.X; x < bounds.Max.X; x += stride {
+		for y := bounds.Min.Y; y < bounds.Max.Y; y += stride {
 			output.Set(x, y, conv(img, kernel, x, y))
 		}
 	}
@@ -26,14 +27,27 @@ func Conv(img image.Image, width, height int, kernel matrigo.Matrix, stride int)
 }
 
 func conv(img image.Image, kernel matrigo.Matrix, x, y int) color.Color {
+	rows := kernel.Rows
+	cols := kernel.Columns
+
+	if rows%2 == 0 || cols%2 == 0 {
+		panic("imago: kernel shape must consist only of odd numbers")
+	}
+
 	rSum := 0.0
 	gSum := 0.0
 	bSum := 0.0
 	aSum := 0.0
 
-	for i := 0; i < kernel.Rows; i++ {
-		for j := 0; j < kernel.Columns; j++ {
-			r, g, b, a := img.At(x, y).RGBA()
+	startX := 0 - cols/2
+	startY := 0 - rows/2
+
+	endX := cols / 2
+	endY := rows / 2
+
+	for i := startX; i < endX; i++ {
+		for j := startY; j < endY; j++ {
+			r, g, b, a := img.At(x+startX, y+startY).RGBA()
 			filter := kernel.Data[i][j]
 
 			rSum += float64(r) * filter

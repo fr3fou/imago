@@ -25,9 +25,9 @@ func TestConv(t *testing.T) {
 	height := bounds.Max.Y
 
 	kernel := matrigo.New(3, 3, [][]float64{
-		{-1, 0, 1},
-		{-1, 0, 1},
-		{-1, 0, 1},
+		{-1, 1, 0},
+		{-1, 1, 0},
+		{-1, 1, 0},
 	})
 
 	outputFile, err := os.Create("../_examples/cheems_edge.png")
