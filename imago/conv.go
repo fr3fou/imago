@@ -26,6 +26,8 @@ func Conv(img image.Image, kernel matrigo.Matrix, stride int) image.Image {
 
 	output := image.NewNRGBA(image.Rect(0, 0, outputWidth, outputHeight))
 
+	// Apply padding and use new image
+
 	for x := bounds.Min.X; x < bounds.Max.X; x += stride {
 		for y := bounds.Min.Y; y < bounds.Max.Y; y += stride {
 			output.Set(x, y, conv(img, kernel, x, y))
@@ -54,8 +56,8 @@ func conv(img image.Image, kernel matrigo.Matrix, x, y int) color.Color {
 	endX := cols / 2
 	endY := rows / 2
 
-	for i := startX; i < endX; i++ {
-		for j := startY; j < endY; j++ {
+	for i := startX; i <= endX; i++ {
+		for j := startY; j <= endY; j++ {
 			r, g, b, a := img.At(x+startX, y+startY).RGBA()
 			filter := kernel.Data[i][j]
 
