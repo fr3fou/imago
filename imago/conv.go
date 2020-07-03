@@ -13,9 +13,18 @@ import (
 var ErrKernelSquare = errors.New("imago: kernel shape must be square")
 
 // Conv applies a convolution filter to an image
-func Conv(img image.Image, width, height int, kernel matrigo.Matrix, stride int) image.Image {
-	output := image.NewNRGBA(image.Rect(0, 0, width, height))
+func Conv(img image.Image, kernel matrigo.Matrix, stride int) image.Image {
 	bounds := img.Bounds()
+	height := bounds.Max.X
+	width := bounds.Max.Y
+
+	// https://adeshpande3.github.io/A-Beginner%27s-Guide-To-Understanding-Convolutional-Neural-Networks-Part-2/
+	kernelSize := kernel.Rows
+	padding := (kernelSize - 1) / 2
+	outputWidth := (width-kernelSize+2*padding)/stride + 1
+	outputHeight := (height-kernelSize+2*padding)/stride + 1
+
+	output := image.NewNRGBA(image.Rect(0, 0, outputWidth, outputHeight))
 
 	for x := bounds.Min.X; x < bounds.Max.X; x += stride {
 		for y := bounds.Min.Y; y < bounds.Max.Y; y += stride {

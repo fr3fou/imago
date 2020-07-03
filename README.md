@@ -33,6 +33,8 @@ $ nni image.png 2
 - <https://www.cambridgeincolour.com/tutorials/image-interpolation.htm>
 - <https://clouard.users.greyc.fr/Pantheon/experiments/rescaling/index-en.html>
 - <https://www.wikiwand.com/en/Kernel_(image_processing)>
+- <https://adeshpande3.github.io/A-Beginner%27s-Guide-To-Understanding-Convolutional-Neural-Networks-Part-2/>
+- <https://www.codingame.com/playgrounds/2524/basic-image-manipulation/filtering>
 
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Linear_interpolation_visualisation.svg/640px-Linear_interpolation_visualisation.svg.png)
 ![](https://upload.wikimedia.org/wikipedia/commons/1/19/2D_Convolution_Animation.gif)
