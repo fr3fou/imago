@@ -36,10 +36,10 @@ func conv(img image.Image, kernel matrigo.Matrix, x, y int) color.Color {
 			r, g, b, a := img.At(x, y).RGBA()
 			filter := kernel.Data[i][j]
 
-			rSum += float64(r) * (filter)
-			gSum += float64(g) * (filter)
-			bSum += float64(b) * (filter)
-			aSum += float64(a) * (filter)
+			rSum += float64(r) * filter
+			gSum += float64(g) * filter
+			bSum += float64(b) * filter
+			aSum += float64(a) * filter
 		}
 	}
 
