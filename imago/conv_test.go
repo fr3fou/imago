@@ -1,6 +1,7 @@
 package imago
 
 import (
+	"image/jpeg"
 	"image/png"
 	"os"
 	"testing"
@@ -10,12 +11,12 @@ import (
 )
 
 func TestConv(t *testing.T) {
-	inputPath := "../_examples/lenna.png"
+	inputPath := "../_examples/cheems.jpg"
 
 	inputFile, err := os.Open(inputPath)
 	require.Nil(t, err)
 
-	img, err := png.Decode(inputFile)
+	img, err := jpeg.Decode(inputFile)
 	require.Nil(t, err)
 
 	kernel := matrigo.New(3, 3, [][]float64{
@@ -24,10 +25,10 @@ func TestConv(t *testing.T) {
 		{-1, 1, 0},
 	})
 
-	outputFile, err := os.Create("../_examples/lenna_edge.png")
+	outputFile, err := os.Create("../_examples/cheems_edge.png")
 	require.Nil(t, err)
 	defer outputFile.Close()
 
-	err = png.Encode(outputFile, Conv(img, kernel, 1))
+	err = png.Encode(outputFile, Conv(img, kernel.Transpose()))
 	require.Nil(t, err)
 }

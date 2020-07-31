@@ -13,30 +13,30 @@ import (
 var ErrKernelSquare = errors.New("imago: kernel shape must be square")
 
 // Conv applies a convolution filter to an image
-func Conv(img image.Image, kernel matrigo.Matrix, stride int) image.Image {
+func Conv(img image.Image, kernel matrigo.Matrix) image.Image {
 	bounds := img.Bounds()
 	width := bounds.Max.X
 	height := bounds.Max.Y
 
 	// https://adeshpande3.github.io/A-Beginner%27s-Guide-To-Understanding-Convolutional-Neural-Networks-Part-2/
 	kernelSize := kernel.Rows
-	padding := (kernelSize - 1) / 2
-	outputWidth := (width-kernelSize+2*padding)/stride + 1
-	outputHeight := (height-kernelSize+2*padding)/stride + 1
+	padding := kernelSize / 2
+	outputWidth := width + 2*padding
+	outputHeight := height + 2*padding
 
-	output := image.NewRGBA(image.Rect(0, 0, outputWidth, outputHeight))
+	padded := image.NewRGBA(image.Rect(0, 0, outputWidth, outputHeight))
+	output := image.NewRGBA(img.Bounds())
 
-	// Apply padding and use new image
-	for x := bounds.Min.X; x < bounds.Max.X; x++ {
-		for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
-			output.Set(x, y, img.At(x, y))
+	for x := bounds.Min.X + padding; x < bounds.Max.X-padding; x++ {
+		for y := bounds.Min.Y + padding; y < bounds.Max.Y-padding; y++ {
+			padded.Set(x, y, img.At(x, y))
 		}
 	}
 
 	transposedKernel := kernel.Transpose()
-	for x := bounds.Min.X; x < bounds.Max.X; x += stride {
-		for y := bounds.Min.Y; y < bounds.Max.Y; y += stride {
-			output.Set(x, y, conv(img, transposedKernel, x, y))
+	for x := bounds.Min.X + padding; x < bounds.Max.X-padding; x++ {
+		for y := bounds.Min.Y + padding; y < bounds.Max.Y-padding; y++ {
+			output.Set(x, y, conv(padded, transposedKernel, x, y))
 		}
 	}
 
