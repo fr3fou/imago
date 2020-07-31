@@ -2,6 +2,7 @@ package imago
 
 import (
 	"errors"
+	"fmt"
 	"image"
 	"image/color"
 	"math"
@@ -27,20 +28,21 @@ func Conv(img image.Image, kernel matrigo.Matrix) image.Image {
 	padded := image.NewRGBA(image.Rect(0, 0, outputWidth, outputHeight))
 	output := image.NewRGBA(img.Bounds())
 
-	for x := bounds.Min.X + padding; x < bounds.Max.X-padding; x++ {
-		for y := bounds.Min.Y + padding; y < bounds.Max.Y-padding; y++ {
-			padded.Set(x, y, img.At(x, y))
+	fmt.Println(padding)
+	for x := bounds.Min.X; x < bounds.Max.X; x++ {
+		for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
+			padded.Set(x+padding, y+padding, img.At(x, y))
 		}
 	}
 
 	transposedKernel := kernel.Transpose()
 	for x := bounds.Min.X + padding; x < bounds.Max.X-padding; x++ {
-		for y := bounds.Min.Y + padding; y < bounds.Max.Y-padding; y++ {
+		for y := bounds.Min.Y + padding; y <= bounds.Max.Y-padding; y++ {
 			output.Set(x, y, conv(padded, transposedKernel, x, y))
 		}
 	}
 
-	return output
+	return padded
 }
 
 func conv(img image.Image, kernel matrigo.Matrix, x, y int) color.Color {

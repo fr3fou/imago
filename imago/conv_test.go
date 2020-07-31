@@ -20,15 +20,15 @@ func TestConv(t *testing.T) {
 	require.Nil(t, err)
 
 	kernel := matrigo.New(3, 3, [][]float64{
-		{-1, 1, 0},
-		{-1, 1, 0},
-		{-1, 1, 0},
+		{-1, 1, 1},
+		{-1, 1, 1},
+		{-1, 1, 1},
 	})
 
 	outputFile, err := os.Create("../_examples/cheems_edge.png")
 	require.Nil(t, err)
 	defer outputFile.Close()
 
-	err = png.Encode(outputFile, Conv(img, kernel.Transpose()))
+	err = png.Encode(outputFile, Conv(img, kernel))
 	require.Nil(t, err)
 }
