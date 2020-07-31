@@ -10,7 +10,7 @@ import (
 )
 
 func TestConv(t *testing.T) {
-	inputPath := "../_examples/Lenna.png"
+	inputPath := "../_examples/lenna.png"
 
 	inputFile, err := os.Open(inputPath)
 	require.Nil(t, err)
@@ -19,12 +19,12 @@ func TestConv(t *testing.T) {
 	require.Nil(t, err)
 
 	kernel := matrigo.New(3, 3, [][]float64{
-		{-1, 1, -1},
-		{-1, 1, -1},
-		{-1, 1, -1},
+		{-1, 1, 0},
+		{-1, 1, 0},
+		{-1, 1, 0},
 	})
 
-	outputFile, err := os.Create("../_examples/Lenna_edge.png")
+	outputFile, err := os.Create("../_examples/lenna_edge.png")
 	require.Nil(t, err)
 	defer outputFile.Close()
 

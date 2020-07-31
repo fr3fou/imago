@@ -65,21 +65,21 @@ func conv(img image.Image, kernel matrigo.Matrix, x, y int) color.Color {
 
 	for i := startX; i <= endX; i++ {
 		for j := startY; j <= endY; j++ {
-			r, g, b, a := img.At(x+startX, y+startY).RGBA()
-			filter := kernel.Data[i+endX][j+endY]
+			r, g, b, a := img.At(x+i, y+j).RGBA()
+			filter := kernel.Data[endX+i][endY+j]
 
-			rSum += float64(r) / 256 * filter
-			gSum += float64(g) / 256 * filter
-			bSum += float64(b) / 256 * filter
-			aSum += float64(a) / 256 * filter
+			rSum += float64(r) / 65535 * filter
+			gSum += float64(g) / 65535 * filter
+			bSum += float64(b) / 65535 * filter
+			aSum += float64(a) / 65535
 		}
 	}
 
 	f := color.RGBA{
-		R: uint8(math.Round(rSum / size)),
-		G: uint8(math.Round(gSum / size)),
-		B: uint8(math.Round(bSum / size)),
-		A: uint8(math.Round(aSum / size)),
+		R: uint8(math.Round(rSum * 255 / size)),
+		G: uint8(math.Round(gSum * 255 / size)),
+		B: uint8(math.Round(bSum * 255 / size)),
+		A: uint8(math.Round(aSum * 255 / size)),
 	}
 
 	return f
