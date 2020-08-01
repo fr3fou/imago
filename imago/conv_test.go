@@ -20,9 +20,9 @@ func TestConv(t *testing.T) {
 	require.Nil(t, err)
 
 	kernel := matrigo.New(3, 3, [][]float64{
-		{1, 1, 1},
-		{1, 6, 1},
-		{1, 1, 1},
+		{-1, -1, -1},
+		{-1, 8, -1},
+		{-1, -1, -1},
 	})
 
 	outputFile, err := os.Create("../_examples/cheems_edge.png")

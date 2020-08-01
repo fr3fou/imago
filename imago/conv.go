@@ -12,7 +12,7 @@ import (
 // ErrKernelSquare is an error for when the kernel shape isn't a square.
 var ErrKernelSquare = errors.New("imago: kernel shape must be square")
 
-// Conv applies a convolution filter to an image
+// Conv applies a convolution filter to an image.
 func Conv(img image.Image, kernel matrigo.Matrix) image.Image {
 	bounds := img.Bounds()
 	width := bounds.Max.X
@@ -46,6 +46,7 @@ func Conv(img image.Image, kernel matrigo.Matrix) image.Image {
 func conv(img *image.RGBA, kernel matrigo.Matrix, x, y int) color.Color {
 	rows := kernel.Rows
 	cols := kernel.Columns
+	// size := float64(rows * cols)
 
 	if rows%2 == 0 || cols%2 == 0 {
 		panic("imago: kernel shape must consist only of odd numbers")
@@ -67,23 +68,21 @@ func conv(img *image.RGBA, kernel matrigo.Matrix, x, y int) color.Color {
 			r, g, b, a := rgba(img, x+i, y+j)
 			filter := kernel.Data[endX+i][endY+j]
 
-			rSum += filter * (float64(r) / 255)
-			gSum += filter * (float64(g) / 255)
-			bSum += filter * (float64(b) / 255)
+			rSum += filter * float64(r)
+			gSum += filter * float64(g)
+			bSum += filter * float64(b)
 			aSum += float64(a)
 		}
 	}
-	rSum = (rSum - (-8.0)) / (8.0 - (-8.0)) // find the % between the min and max of -8 and 8
-	gSum = (gSum - (-8.0)) / (8.0 - (-8.0)) // find the % between the min and max of -8 and 8
-	bSum = (bSum - (-8.0)) / (8.0 - (-8.0)) // find the % between the min and max of -8 and 8
-	// aSum = (aSum- (-8.0)) / (8.0 - (-8.0)); // find the % between the min and max of -8 and 8
 
-	return color.RGBA{
-		R: uint8(math.Abs(rSum * 255)),
-		G: uint8(math.Abs(gSum * 255)),
-		B: uint8(math.Abs(bSum * 255)),
-		A: uint8(math.Abs(aSum)),
+	c := color.RGBA{
+		R: clamp(rSum, 255),
+		G: clamp(gSum, 255),
+		B: clamp(bSum, 255),
+		A: 255,
 	}
+
+	return c
 }
 
 // rgba gets the pixel value at given coordinates
@@ -98,4 +97,14 @@ func rgba(img *image.RGBA, x, y int) (r uint8, g uint8, b uint8, a uint8) {
 	a = img.Pix[pixelPosition+3]
 
 	return
+}
+
+func clamp(val float64, max uint8) uint8 {
+	val = math.Abs(val)
+	switch {
+	case uint8(val) > max:
+		return max
+	default:
+		return uint8(val)
+	}
 }
