@@ -42,7 +42,7 @@ func Conv(img image.Image, kernel matrigo.Matrix) image.Image {
 		}
 	}
 
-	return padded
+	return output
 }
 
 func conv(img image.Image, kernel matrigo.Matrix, x, y int) color.Color {
@@ -77,12 +77,10 @@ func conv(img image.Image, kernel matrigo.Matrix, x, y int) color.Color {
 		}
 	}
 
-	f := color.RGBA{
+	return color.RGBA{
 		R: uint8(math.Abs(math.Round(rSum * 255 / size))),
 		G: uint8(math.Abs(math.Round(gSum * 255 / size))),
 		B: uint8(math.Abs(math.Round(bSum * 255 / size))),
 		A: uint8(math.Abs(math.Round(aSum * 255 / size))),
 	}
-
-	return f
 }
