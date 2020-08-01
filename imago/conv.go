@@ -4,7 +4,6 @@ import (
 	"errors"
 	"image"
 	"image/color"
-	"math"
 
 	"github.com/fr3fou/matrigo"
 )
@@ -35,8 +34,8 @@ func Conv(img image.Image, kernel matrigo.Matrix) image.Image {
 
 	transposedKernel := kernel.Transpose()
 	for x := bounds.Min.X + padding; x < bounds.Max.X-padding; x++ {
-		for y := bounds.Min.Y + padding; y <= bounds.Max.Y-padding; y++ {
-			output.Set(x, y, conv(padded, transposedKernel, x, y))
+		for y := bounds.Min.Y + padding; y < bounds.Max.Y-padding; y++ {
+			output.Set(x-padding, y-padding, conv(padded, transposedKernel, x, y))
 		}
 	}
 
@@ -66,19 +65,19 @@ func conv(img image.Image, kernel matrigo.Matrix, x, y int) color.Color {
 	for i := startX; i <= endX; i++ {
 		for j := startY; j <= endY; j++ {
 			r, g, b, a := img.At(x+i, y+j).RGBA()
-			filter := kernel.Data[endX+i][endY+j]
+			// filter := kernel.Data[endX+i][endY+j]
 
-			rSum += float64(r) / 65535 * filter
-			gSum += float64(g) / 65535 * filter
-			bSum += float64(b) / 65535 * filter
-			aSum += float64(a) / 65535
+			rSum += float64(r) / 256
+			gSum += float64(g) / 256
+			bSum += float64(b) / 256
+			aSum += float64(a) / 256
 		}
 	}
 
 	return color.RGBA{
-		R: uint8(math.Abs(math.Round(rSum * 255 / size))),
-		G: uint8(math.Abs(math.Round(gSum * 255 / size))),
-		B: uint8(math.Abs(math.Round(bSum * 255 / size))),
-		A: uint8(math.Abs(math.Round(aSum * 255 / size))),
+		R: uint8(rSum / size),
+		G: uint8(gSum / size),
+		B: uint8(bSum / size),
+		A: uint8(aSum / size),
 	}
 }
