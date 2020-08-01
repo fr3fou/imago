@@ -4,6 +4,7 @@ import (
 	"errors"
 	"image"
 	"image/color"
+	"math"
 
 	"github.com/fr3fou/matrigo"
 )
@@ -66,18 +67,22 @@ func conv(img *image.RGBA, kernel matrigo.Matrix, x, y int) color.Color {
 			r, g, b, a := rgba(img, x+i, y+j)
 			filter := kernel.Data[endX+i][endY+j]
 
-			rSum += filter * float64(r)
-			gSum += filter * float64(g)
-			bSum += filter * float64(b)
+			rSum += filter * (float64(r) / 255)
+			gSum += filter * (float64(g) / 255)
+			bSum += filter * (float64(b) / 255)
 			aSum += float64(a)
 		}
 	}
+	rSum = (rSum - (-8.0)) / (8.0 - (-8.0)) // find the % between the min and max of -8 and 8
+	gSum = (gSum - (-8.0)) / (8.0 - (-8.0)) // find the % between the min and max of -8 and 8
+	bSum = (bSum - (-8.0)) / (8.0 - (-8.0)) // find the % between the min and max of -8 and 8
+	// aSum = (aSum- (-8.0)) / (8.0 - (-8.0)); // find the % between the min and max of -8 and 8
 
 	return color.RGBA{
-		R: uint8(rSum),
-		G: uint8(gSum),
-		B: uint8(bSum),
-		A: uint8(aSum),
+		R: uint8(math.Abs(rSum * 255)),
+		G: uint8(math.Abs(gSum * 255)),
+		B: uint8(math.Abs(bSum * 255)),
+		A: uint8(math.Abs(aSum)),
 	}
 }
 
