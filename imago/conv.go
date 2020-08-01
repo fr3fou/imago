@@ -42,10 +42,9 @@ func Conv(img image.Image, kernel matrigo.Matrix) image.Image {
 	return output
 }
 
-func conv(img image.Image, kernel matrigo.Matrix, x, y int) color.Color {
+func conv(img *image.RGBA, kernel matrigo.Matrix, x, y int) color.Color {
 	rows := kernel.Rows
 	cols := kernel.Columns
-	size := float64(rows * cols)
 
 	if rows%2 == 0 || cols%2 == 0 {
 		panic("imago: kernel shape must consist only of odd numbers")
@@ -64,20 +63,34 @@ func conv(img image.Image, kernel matrigo.Matrix, x, y int) color.Color {
 
 	for i := startX; i <= endX; i++ {
 		for j := startY; j <= endY; j++ {
-			r, g, b, a := img.At(x+i, y+j).RGBA()
+			r, g, b, a := rgba(img, x+i, y+j)
 			filter := kernel.Data[endX+i][endY+j]
 
-			rSum += float64(r) / 256 * filter
-			gSum += float64(g) / 256 * filter
-			bSum += float64(b) / 256 * filter
-			aSum += float64(a) / 256
+			rSum += filter * float64(r)
+			gSum += filter * float64(g)
+			bSum += filter * float64(b)
+			aSum += float64(a)
 		}
 	}
 
 	return color.RGBA{
-		R: uint8(rSum / size),
-		G: uint8(gSum / size),
-		B: uint8(bSum / size),
-		A: uint8(aSum / size),
+		R: uint8(rSum),
+		G: uint8(gSum),
+		B: uint8(bSum),
+		A: uint8(aSum),
 	}
+}
+
+// rgba gets the pixel value at given coordinates
+func rgba(img *image.RGBA, x, y int) (r uint8, g uint8, b uint8, a uint8) {
+	rect := img.Rect
+	stride := img.Stride
+	pixelPosition := (y-rect.Min.Y)*stride + (x-rect.Min.X)*4
+
+	r = img.Pix[pixelPosition+0]
+	g = img.Pix[pixelPosition+1]
+	b = img.Pix[pixelPosition+2]
+	a = img.Pix[pixelPosition+3]
+
+	return
 }
