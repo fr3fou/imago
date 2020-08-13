@@ -32,7 +32,7 @@ func main() {
 	defer img.Close()
 
 	var loadedImage image.Image
-	if ext == "jpg " || ext == "jpeg" {
+	if ext == ".jpg" || ext == ".jpeg" {
 		loadedImage, err = jpeg.Decode(img)
 		if err != nil {
 			panic(err)
