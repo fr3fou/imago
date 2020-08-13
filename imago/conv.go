@@ -76,9 +76,9 @@ func conv(img *image.RGBA, kernel matrigo.Matrix, x, y int) color.Color {
 	}
 
 	c := color.RGBA{
-		R: clamp(rSum, 255),
-		G: clamp(gSum, 255),
-		B: clamp(bSum, 255),
+		R: uint8(math.Min(255, math.Max(0, rSum))),
+		G: uint8(math.Min(255, math.Max(0, gSum))),
+		B: uint8(math.Min(255, math.Max(0, bSum))),
 		A: 255,
 	}
 
@@ -97,14 +97,4 @@ func rgba(img *image.RGBA, x, y int) (r uint8, g uint8, b uint8, a uint8) {
 	a = img.Pix[pixelPosition+3]
 
 	return
-}
-
-func clamp(val float64, max uint8) uint8 {
-	val = math.Abs(val)
-	switch {
-	case uint8(val) > max:
-		return max
-	default:
-		return uint8(val)
-	}
 }
