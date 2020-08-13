@@ -39,9 +39,9 @@ func main() {
 	}
 
 	kernel := matrigo.New(3, 3, [][]float64{
-		{-1, -1, -1},
-		{-1, 8, -1},
-		{-1, -1, -1},
+		{0, -1, 0},
+		{-1, 5, -1},
+		{0, -1, 0},
 	})
 
 	convolvedFile, err := os.Create(outputName)
