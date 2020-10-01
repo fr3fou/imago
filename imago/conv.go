@@ -46,7 +46,6 @@ func Conv(img image.Image, kernel matrigo.Matrix) image.Image {
 func conv(img *image.RGBA, kernel matrigo.Matrix, x, y int) color.Color {
 	rows := kernel.Rows
 	cols := kernel.Columns
-	// size := float64(rows * cols)
 
 	if rows%2 == 0 || cols%2 == 0 {
 		panic("imago: kernel shape must consist only of odd numbers")
