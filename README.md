@@ -39,6 +39,7 @@ $ nni image.png 2
 - <http://web.pdx.edu/~jduh/courses/Archive/geog481w07/Students/Ludwig_ImageConvolution.pdf>
 - <https://usman.it/image-manipulation-in-golang/>
 - <https://ai.stanford.edu/~syyeung/cvweb/tutorial1.html>
+- <https://setosa.io/ev/image-kernels/>
 
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Linear_interpolation_visualisation.svg/640px-Linear_interpolation_visualisation.svg.png)
 ![](https://upload.wikimedia.org/wikipedia/commons/1/19/2D_Convolution_Animation.gif)
