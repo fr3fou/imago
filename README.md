@@ -7,7 +7,7 @@
 - [ ] Lanczos scaling
 - [ ] Cubic scaling
 - [ ] Rotating images
-- [ ] Convolutions / Filters
+- [x] Convolutions / Filters
 
 ## Usage
 
